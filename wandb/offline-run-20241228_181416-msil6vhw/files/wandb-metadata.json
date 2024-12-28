@@ -1,0 +1,37 @@
+{
+    "os": "macOS-13.6.9-arm64-arm-64bit",
+    "python": "3.10.13",
+    "heartbeatAt": "2024-12-28T10:14:16.316500",
+    "startedAt": "2024-12-28T10:14:16.277995",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/Users/a58/Downloads/my_test/my_code/run.py",
+    "codePathLocal": "run.py",
+    "codePath": "run.py",
+    "git": {
+        "remote": "https://github.com/Darrenzeng/my_code.git",
+        "commit": "6a0706bf33aace51b8489ee1f8843499807110e5"
+    },
+    "email": "zengyufei@58.com",
+    "root": "/Users/a58/Downloads/my_test/my_code",
+    "host": "58deMacBook-Pro-2.local",
+    "username": "a58",
+    "executable": "/Users/a58/anaconda3/envs/llama_factory/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "disk": {
+        "/": {
+            "total": 228.27386474609375,
+            "used": 11.096736907958984
+        }
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 16.0
+    }
+}

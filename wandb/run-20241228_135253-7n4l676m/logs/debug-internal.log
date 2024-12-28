@@ -1,0 +1,60 @@
+2024-12-28 13:52:53,550 INFO    StreamThr :49625 [internal.py:wandb_internal():86] W&B internal server running at pid: 49625, started at: 2024-12-28 13:52:53.548872
+2024-12-28 13:52:53,553 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: status
+2024-12-28 13:52:53,556 INFO    WriterThread:49625 [datastore.py:open_for_write():87] open: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/run-7n4l676m.wandb
+2024-12-28 13:52:53,559 DEBUG   SenderThread:49625 [sender.py:send():379] send: header
+2024-12-28 13:52:53,584 DEBUG   SenderThread:49625 [sender.py:send():379] send: run
+2024-12-28 13:52:54,369 INFO    SenderThread:49625 [dir_watcher.py:__init__():211] watching files in: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/files
+2024-12-28 13:52:54,369 INFO    SenderThread:49625 [sender.py:_start_run_threads():1124] run started: 7n4l676m with start time 1735365173.547869
+2024-12-28 13:52:54,399 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: check_version
+2024-12-28 13:52:54,400 DEBUG   SenderThread:49625 [sender.py:send_request():406] send_request: check_version
+2024-12-28 13:52:55,321 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: run_start
+2024-12-28 13:52:55,329 DEBUG   HandlerThread:49625 [system_info.py:__init__():26] System info init
+2024-12-28 13:52:55,329 DEBUG   HandlerThread:49625 [system_info.py:__init__():41] System info init done
+2024-12-28 13:52:55,329 INFO    HandlerThread:49625 [system_monitor.py:start():194] Starting system monitor
+2024-12-28 13:52:55,330 INFO    SystemMonitor:49625 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-12-28 13:52:55,331 INFO    HandlerThread:49625 [system_monitor.py:probe():214] Collecting system info
+2024-12-28 13:52:55,331 INFO    SystemMonitor:49625 [interfaces.py:start():190] Started cpu monitoring
+2024-12-28 13:52:55,332 DEBUG   HandlerThread:49625 [system_info.py:probe():150] Probing system
+2024-12-28 13:52:55,333 INFO    SystemMonitor:49625 [interfaces.py:start():190] Started disk monitoring
+2024-12-28 13:52:55,334 INFO    SystemMonitor:49625 [interfaces.py:start():190] Started gpuapple monitoring
+2024-12-28 13:52:55,341 INFO    SystemMonitor:49625 [interfaces.py:start():190] Started memory monitoring
+2024-12-28 13:52:55,342 INFO    SystemMonitor:49625 [interfaces.py:start():190] Started network monitoring
+2024-12-28 13:52:55,347 DEBUG   HandlerThread:49625 [system_info.py:_probe_git():135] Probing git
+2024-12-28 13:52:55,378 DEBUG   HandlerThread:49625 [system_info.py:_probe_git():143] Probing git done
+2024-12-28 13:52:55,378 DEBUG   HandlerThread:49625 [system_info.py:probe():198] Probing system done
+2024-12-28 13:52:55,378 DEBUG   HandlerThread:49625 [system_monitor.py:probe():223] {'os': 'macOS-13.6.9-arm64-arm-64bit', 'python': '3.10.13', 'heartbeatAt': '2024-12-28T05:52:55.333398', 'startedAt': '2024-12-28T05:52:53.531596', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/Users/a58/Downloads/my_test/my_code/run.py', 'codePathLocal': 'run.py', 'codePath': 'run.py', 'git': {'remote': 'https://github.com/Darrenzeng/my_code.git', 'commit': '6a0706bf33aace51b8489ee1f8843499807110e5'}, 'email': 'zengyufei@58.com', 'root': '/Users/a58/Downloads/my_test/my_code', 'host': '58deMacBook-Pro-2.local', 'username': 'a58', 'executable': '/Users/a58/anaconda3/envs/llama_factory/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'disk': {'/': {'total': 228.27386474609375, 'used': 11.096736907958984}}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 16.0}}
+2024-12-28 13:52:55,378 INFO    HandlerThread:49625 [system_monitor.py:probe():224] Finished collecting system info
+2024-12-28 13:52:55,378 INFO    HandlerThread:49625 [system_monitor.py:probe():227] Publishing system info
+2024-12-28 13:52:55,378 DEBUG   HandlerThread:49625 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-12-28 13:52:56,377 INFO    Thread-17 :49625 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/files/conda-environment.yaml
+2024-12-28 13:52:58,061 DEBUG   HandlerThread:49625 [system_info.py:_save_conda():222] Saving conda packages done
+2024-12-28 13:52:58,063 INFO    HandlerThread:49625 [system_monitor.py:probe():229] Finished publishing system info
+2024-12-28 13:52:58,067 DEBUG   SenderThread:49625 [sender.py:send():379] send: files
+2024-12-28 13:52:58,067 INFO    SenderThread:49625 [sender.py:_save_file():1390] saving file wandb-metadata.json with policy now
+2024-12-28 13:52:58,385 INFO    Thread-17 :49625 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/files/conda-environment.yaml
+2024-12-28 13:52:58,385 INFO    Thread-17 :49625 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/files/wandb-metadata.json
+2024-12-28 13:52:58,455 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: python_packages
+2024-12-28 13:52:58,455 DEBUG   SenderThread:49625 [sender.py:send_request():406] send_request: python_packages
+2024-12-28 13:52:58,456 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: stop_status
+2024-12-28 13:52:58,457 DEBUG   SenderThread:49625 [sender.py:send_request():406] send_request: stop_status
+2024-12-28 13:52:58,459 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: internal_messages
+2024-12-28 13:52:58,957 DEBUG   SenderThread:49625 [sender.py:send():379] send: telemetry
+2024-12-28 13:52:58,957 DEBUG   SenderThread:49625 [sender.py:send():379] send: config
+2024-12-28 13:52:58,958 DEBUG   SenderThread:49625 [sender.py:send():379] send: metric
+2024-12-28 13:52:58,958 DEBUG   SenderThread:49625 [sender.py:send():379] send: telemetry
+2024-12-28 13:52:58,958 DEBUG   SenderThread:49625 [sender.py:send():379] send: metric
+2024-12-28 13:52:58,958 WARNING SenderThread:49625 [sender.py:send_metric():1341] Seen metric with glob (shouldn't happen)
+2024-12-28 13:52:58,958 DEBUG   SenderThread:49625 [sender.py:send():379] send: telemetry
+2024-12-28 13:52:58,958 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: status_report
+2024-12-28 13:52:59,386 INFO    Thread-17 :49625 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/files/requirements.txt
+2024-12-28 13:52:59,387 INFO    Thread-17 :49625 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/files/output.log
+2024-12-28 13:53:00,448 INFO    wandb-upload_0:49625 [upload_job.py:push():131] Uploaded file /var/folders/q0/lv35k3n50r75tv6nmb170bc40000gn/T/tmpb77j7la8wandb/4iaakvnc-wandb-metadata.json
+2024-12-28 13:53:01,392 INFO    Thread-17 :49625 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/files/output.log
+2024-12-28 13:53:03,980 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: status_report
+2024-12-28 13:53:09,001 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: status_report
+2024-12-28 13:53:13,870 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: internal_messages
+2024-12-28 13:53:14,022 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: status_report
+2024-12-28 13:53:19,039 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: status_report
+2024-12-28 13:53:24,073 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: status_report
+2024-12-28 13:53:24,525 INFO    Thread-17 :49625 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/a58/Downloads/my_test/my_code/wandb/run-20241228_135253-7n4l676m/files/config.yaml
+2024-12-28 13:53:29,515 DEBUG   HandlerThread:49625 [handler.py:handle_request():146] handle_request: status_report
