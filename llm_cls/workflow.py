@@ -36,20 +36,6 @@ def run_sft(
     freeze_parms(model)
     parms_is_freeze_print(model)
     data_collator = DataCollatorForClassification()
-    
-    # if training_args.do_eval:
-    #     train_data, val_data = train_test_split(
-    #         dataset_module["train_dataset"], 
-    #         test_size=0.2, 
-    #         shuffle=True,
-    #         random_state=42
-    #         )
-    #     train_dataset=train_data
-    #     eval_dataset=val_data
-    # else:
-    #     train_dataset=dataset_module["train_dataset"]
-    #     eval_dataset=None
-    #     training_args.args.eval_strategy="no"
 
     # Initialize our Trainer
     trainer = CustomSeq2SeqTrainer(
