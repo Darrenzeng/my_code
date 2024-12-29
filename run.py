@@ -40,6 +40,7 @@ def get_parser():
     training_args.lr_scheduler_type="cosine"
     training_args.max_grad_norm=1.0
     training_args.warmup_steps=0
+    training_args.warmup_ratio = 0.0
     training_args.save_safetensors=False
     training_args.run_name="qingqing"
     

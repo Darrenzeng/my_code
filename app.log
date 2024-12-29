@@ -1494,3 +1494,8 @@
 2024-12-28 18:31:50,972 - llm_cls.workflow - INFO - Training started
 2024-12-28 18:32:37,937 - llm_cls.workflow - INFO - Training started
 2024-12-28 18:35:23,542 - llm_cls.trainer - INFO - Saving prediction results to /Users/a58/Downloads/my_test/my_code/output/generated_predictions.jsonl
+2024-12-28 19:08:32,734 - llm_cls.workflow - INFO - Training started
+2024-12-29 00:56:44,575 - llm_cls.workflow - INFO - Training started
+2024-12-29 11:02:13,167 - llm_cls.workflow - INFO - Training started
+2024-12-29 11:05:48,206 - llm_cls.workflow - INFO - Training started
+2024-12-29 11:08:26,790 - llm_cls.workflow - INFO - Training started

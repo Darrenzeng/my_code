@@ -1,4 +1,4 @@
-from datasets import Dataset, DatasetDict, load_dataset
+from datasets import Dataset, DatasetDict, load_dataset, concatenate_datasets
 from transformers import AutoTokenizer
 from .template import get_prompt
 
@@ -36,8 +36,8 @@ def get_dataset(tokenizer, model_args, data_args, training_args):
         valid_data = load_dataset("json", data_files=data_args.eval_dataset, split="train")
     else:
         valid_data = load_dataset("text", data_files=data_args.eval_dataset, split="train")
-
-    label2idx, idx2label = label_2_idx(train_data)
+    combined_data = concatenate_datasets([train_data, valid_data])
+    label2idx, idx2label = label_2_idx(combined_data)
     # 数据预处理函数
     def preprocess_function(examples):
         """

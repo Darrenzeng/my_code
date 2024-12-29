@@ -1,16 +1,21 @@
 import torch.nn as nn
-
+import copy
 import torch
 import torch.nn as nn
 from transformers import AutoModel
+from transformers import PreTrainedModel,PretrainedConfig
 
 # 假设你已经加载好了 Qwen 的预训练模型（注意兼容性和 API）
 # 下面的 "QwenModel" 仅作占位示例
 
-class QwenForClassification(nn.Module):
+class QwenForClassification1(nn.Module):
     def __init__(self, qwen_model, config, num_labels=2):
         super().__init__()
         self.qwen_model = qwen_model
+class QwenForClassification(PreTrainedModel):
+    def __init__(self, qwen_model, config, num_labels):
+        super().__init__(config)
+        self.qwen_model = qwen_model  # 使用提供的预训练模型
         hidden_size = config.hidden_size  # 需与实际 Qwen 隐藏层大小对应
         self.classifier = nn.Linear(hidden_size, num_labels)
     
@@ -28,7 +33,7 @@ class QwenForClassification(nn.Module):
         
         # 这里以取 [CLS] 位（或者说第一 token）当做 pooled vector
         # 其实 GPT 模型不存在严格意义的 [CLS]，通常我们只取第 0 个 token 或者其它位置作为分类依据
-        pooled_output = last_hidden_state[:, 0, :]      # (batch_size, hidden_size)
+        pooled_output = last_hidden_state[:, -1, :]      # (batch_size, hidden_size)
         
         # 得到分类 logits
         logits = self.classifier(pooled_output)         # (batch_size, num_labels)
