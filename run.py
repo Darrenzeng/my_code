@@ -45,6 +45,7 @@ def get_parser():
     training_args.run_name="qingqing"
     
     #数据
+    data_args.cutoff_len = 512
     data_args.train_dataset = "/Users/a58/Downloads/my_test/LLaMA-Factory-0.9.0/data/train_sft.json"
     data_args.eval_dataset = "/Users/a58/Downloads/my_test/LLaMA-Factory-0.9.0/data/train_sft.json"
     

@@ -6,13 +6,13 @@ from typing import TYPE_CHECKING, List, Optional
 from transformers import DataCollatorForLanguageModeling
 from transformers import Seq2SeqTrainingArguments, TrainerCallback
 from .hparams import DataArguments, FinetuningArguments, ModelArguments, GeneratingArguments
-from .model.custom_model import QwenForClassification
+from .model.custom_model import ModelnBertForClassification
 from .utils.logging import setup_logging
 from .utils.model_freeze import freeze_parms, parms_is_freeze_print
 from .data.loader import get_dataset
 from .data.collator import DataCollatorForClassification
 from .trainer import CustomSeq2SeqTrainer
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoConfig, ModernBertModel, AutoTokenizer, AutoModelForMaskedLM
 from sklearn.model_selection import train_test_split
 
 def run_sft(
@@ -28,11 +28,9 @@ def run_sft(
     logger.info("Training started")
     tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path, trust_remote_code=True)
     base_model_config = AutoConfig.from_pretrained(model_args.model_name_or_path, trust_remote_code=True)
-    base_model = AutoModelForCausalLM.from_pretrained(model_args.model_name_or_path, 
-                                                      device_map="auto", 
-                                                      torch_dtype=torch.float32, trust_remote_code=True)
+    base_model = AutoModelForMaskedLM.from_pretrained(model_args.model_name_or_path, trust_remote_code=True)
     dataset_module = get_dataset(tokenizer, model_args, data_args, training_args)
-    model = QwenForClassification(qwen_model=base_model, config=base_model_config, num_labels=dataset_module["num_labels"])
+    model = ModelnBertForClassification(base_model, config=base_model_config, num_labels=dataset_module["num_labels"])
     freeze_parms(model)
     parms_is_freeze_print(model)
     data_collator = DataCollatorForClassification()
@@ -74,9 +72,6 @@ def run_sft(
     gen_kwargs = generating_args.to_dict()
     gen_kwargs["eos_token_id"] = [tokenizer.eos_token_id] + tokenizer.additional_special_tokens_ids
     gen_kwargs["pad_token_id"] = tokenizer.pad_token_id
-    if training_args.do_predict:
-        predict_results = trainer.predict(dataset_module["train_dataset"].train_test_split(test_size=0.2, seed=42)["test"], metric_key_prefix="predict", **gen_kwargs)
-        trainer.save_predictions(dataset_module["eval_dataset"], predict_results, fine_name="generated_predictions_train02.jsonl")
     if training_args.do_predict:
         predict_results = trainer.predict(dataset_module["eval_dataset"], metric_key_prefix="predict", **gen_kwargs)
         if training_args.predict_with_generate:  # predict_loss will be wrong if predict_with_generate is enabled

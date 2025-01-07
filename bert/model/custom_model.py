@@ -3,27 +3,22 @@ import copy
 import torch
 import torch.nn as nn
 from transformers import AutoModel
-from torch.nn import init
 from transformers import PreTrainedModel,PretrainedConfig
 
 # 假设你已经加载好了 Qwen 的预训练模型（注意兼容性和 API）
 # 下面的 "QwenModel" 仅作占位示例
 
-class QwenForClassification1(nn.Module):
-    def __init__(self, qwen_model, config, num_labels=2):
-        super().__init__()
-        self.qwen_model = qwen_model
-class QwenForClassification(PreTrainedModel):
-    def __init__(self, qwen_model, config, num_labels):
+class ModelnBertForClassification(PreTrainedModel):
+    def __init__(self, bert_model, config, num_labels):
         super().__init__(config)
-        self.qwen_model = qwen_model  # 使用提供的预训练模型
+        self.modelnBert = bert_model  # 使用提供的预训练模型
         hidden_size = config.hidden_size  # 需与实际 Qwen 隐藏层大小对应
         self.classifier = nn.Linear(hidden_size, num_labels)
     
 
     def forward(self, input_ids, attention_mask=None, labels=None):
         # 调用 Qwen 模型，并让其输出 hidden_states
-        outputs = self.qwen_model(
+        outputs = self.modelnBert(
             input_ids=input_ids,
             attention_mask=attention_mask,
             output_hidden_states=True,  
