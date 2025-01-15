@@ -12,7 +12,7 @@ from .utils.model_freeze import freeze_parms, parms_is_freeze_print
 from .data.loader import get_dataset
 from .data.collator import DataCollatorForClassification
 from .trainer import CustomSeq2SeqTrainer
-from transformers import AutoConfig, ModernBertModel, AutoTokenizer, AutoModelForMaskedLM
+from transformers import AutoConfig, ModernBertModel, AutoTokenizer, AutoModelForMaskedLM, ModernBertForMaskedLM
 from sklearn.model_selection import train_test_split
 
 def run_sft(

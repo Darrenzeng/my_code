@@ -49,7 +49,7 @@ def get_dataset(tokenizer, model_args, data_args, training_args):
         # 调用 tokenizer 做分词
         result = tokenizer(
             texts,
-            padding="max_length",
+            padding="longest",
             truncation=True,
             max_length=data_args.cutoff_len,
         )
@@ -61,8 +61,8 @@ def get_dataset(tokenizer, model_args, data_args, training_args):
         return result
 
     # 应用预处理
-    train_dataset = train_data.map(preprocess_function, batched=True)
-    valid_dataset = valid_data.map(preprocess_function, batched=True)
+    train_dataset = train_data.map(preprocess_function, batched=True, batch_size=training_args.per_device_train_batch_size)
+    valid_dataset = valid_data.map(preprocess_function, batched=True, batch_size=training_args.per_device_eval_batch_size)
 
     # 转换为 PyTorch 格式
     train_dataset = train_dataset.with_format("torch")
