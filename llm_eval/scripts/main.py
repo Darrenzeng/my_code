@@ -2,6 +2,7 @@ import os
 from typing import Tuple
 import pandas as pd
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 from eval_ceval import run_ceval
 
 def get_args():

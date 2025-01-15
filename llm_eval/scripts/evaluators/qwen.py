@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append("/Users/a58/Downloads/llm_eval")
+sys.path.append("/Users/a58/Downloads/my_test/my_code/llm_eval")
 import re
 from typing import List
 
@@ -9,6 +9,8 @@ import torch
 from evaluators.evaluator import Evaluator
 from tqdm import tqdm
 from utils.tools import get_prompt
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
 
 import requests
 
@@ -178,7 +180,131 @@ class LLaMA_Evaluator(Evaluator):
         else:
             return pred[model_answer] if model_answer in pred else model_answer, 0
 
+    def process_single_row(
+        self,
+        row,
+        few_shot_prompt,
+        model,
+        model_name,
+        chat_model,
+        cot,
+        **kwargs
+    ):
+        """
+        多线程内部实际处理逻辑：
+        1. 构造 prompt
+        2. 请求服务端获取结果
+        3. 根据是否是 chain-of-thought (cot) 或者普通单选题进行后处理
+        """
+        # 1. 构造 prompt
+        question = self.format_example(row, include_answer=False, cot=cot)
+        full_prompt = few_shot_prompt + question
+        if chat_model:
+            templat = "qwen" if "qwen" in model_name else "llama"
+            full_prompt = get_prompt(query=full_prompt, template=templat)
+
+        payload = dict(
+            model=model,  # 模型路径 / 名字
+            prompt=full_prompt,
+            max_tokens=kwargs.get("max_gen_len", 128),
+            top_p=kwargs.get("top_p", 0.9),
+            top_k=kwargs.get("top_k", 40),
+            temperature=kwargs.get("temperature", 0.7),
+            stop=stop,
+            stream=False,
+            repetition_penalty=1.05,
+            skip_special_tokens=False,
+        )
+
+        # 2. 请求服务端获取推理结果
+        response = requests.post(url, headers=headers, json=payload)
+        if response.status_code == 200:
+            response_json = response.json()
+            output = response_json["choices"][0]["text"]
+        else:
+            print(f"Failed with status code {response.status_code}: {response.text}")
+            output = response.text
+
+        # 3. 后处理
+        if cot:
+            assert isinstance(output, str)
+            pred, correct = self.extract_answer(row, output)
+        else:
+            # 若是普通四选一题：A, B, C, D
+            # 假设服务端返回的 output 是可直接 flatten() 的 logits
+            logits = output.flatten()  # 具体按实际情况处理
+            probs = (
+                torch.nn.functional.softmax(
+                    torch.tensor([
+                        logits[self.tokenizer.encode("A", bos=False, eos=False)[0]],
+                        logits[self.tokenizer.encode("B", bos=False, eos=False)[0]],
+                        logits[self.tokenizer.encode("C", bos=False, eos=False)[0]],
+                        logits[self.tokenizer.encode("D", bos=False, eos=False)[0]],
+                    ]),
+                    dim=0
+                )
+                .detach()
+                .cpu()
+                .numpy()
+            )
+            pred = {0: "A", 1: "B", 2: "C", 3: "D"}[np.argmax(probs)]
+            correct = 1 if pred == row["answer"] else 0
+
+        return pred, correct
+
     def eval_subject(
+        self,
+        model_name,
+        chat_model,
+        subject_name,
+        test_df,
+        dev_df=None,
+        few_shot=False,
+        save_result_dir=None,
+        cot=True,
+        model="",
+        max_workers = 10,
+        **kwargs
+    ):
+        few_shot_prompt = self.generate_few_shot_prompt(
+            subject_name, dev_df, cot=cot) if few_shot else []
+        results = []
+        scores = []
+
+        # 创建线程池
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # 将待处理的每个 row 提交到线程池
+            futures = []
+            for _, row in test_df.iterrows():
+                future = executor.submit(
+                    self.process_single_row,
+                    row,
+                    few_shot_prompt,
+                    model,
+                    model_name,
+                    chat_model,
+                    cot,
+                    **kwargs
+                )
+                futures.append(future)
+
+            # 使用 as_completed 获取已完成的任务并显示进度
+            for future in tqdm(as_completed(futures), total=len(futures)):
+                pred, correct = future.result()  # 获取线程返回的结果
+                results.append(pred)
+                scores.append(correct)
+
+        correct_ratio = 100 * sum(scores) / len(scores)
+        
+        # print(f"Correct ratio: {correct_ratio:.2f}%")
+        if save_result_dir:
+            test_df['model_output'] = results
+            test_df["correctness"] = scores
+            test_df.to_csv(os.path.join(
+                save_result_dir, f'{subject_name}_test.csv'), encoding="utf-8", index=False)
+        return correct_ratio
+
+    def eval_subject1(
         self,
         model_name,
         chat_model,
